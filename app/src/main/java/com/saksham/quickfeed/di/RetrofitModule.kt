@@ -11,6 +11,7 @@ import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
@@ -30,7 +31,7 @@ object RetrofitModule {
     fun provideApiKeyInterceptor(): Interceptor = Interceptor { chain ->
         val original = chain.request()
         val newUrl = original.url.newBuilder()
-            .addQueryParameter("apiKey", API_KEY)
+            .addQueryParameter("apikey", API_KEY)
             .build()
         val newRequest = original.newBuilder().url(newUrl).build()
         chain.proceed(newRequest)
@@ -38,10 +39,15 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient =
-        OkHttpClient.Builder()
-        .addInterceptor(interceptor)
-        .build()
+    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor().apply(){
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        return OkHttpClient.Builder()
+            .addInterceptor(interceptor)
+            .addInterceptor(loggingInterceptor)
+            .build()
+    }
 
     @OptIn(ExperimentalSerializationApi::class)
     @Provides

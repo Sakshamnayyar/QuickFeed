@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.saksham.quickfeed.ui.feed.FeedScreen
 import com.saksham.quickfeed.ui.theme.QuickFeedTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,28 +23,25 @@ class MainActivity : ComponentActivity() {
         setContent {
             QuickFeedTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    FeedScreen(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+//@Composable
+//fun Greeting(name: String, modifier: Modifier = Modifier) {
+//    Text(
+//        text = "Hello $name!",
+//        modifier = modifier
+//    )
+//}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    QuickFeedTheme {
-        Greeting("Android")
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun GreetingPreview() {
+//    QuickFeedTheme {
+//        Greeting("Android")
+//    }
+//}
